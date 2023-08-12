@@ -162,7 +162,30 @@ const processor = await unified()
 
 Now, you can set the highlighter to use those themes by passing the name to `options.theme`.
 
-**options.inlineCode.spaceSubstitution**
+**options.inlineCode.theme**  
+Type: `string | string[]` (A string or array of strings).
+
+This option allows you to set the theme for only inline code snippets. By default it inherits the theme from `options.theme`.
+Do note that if a value is set for this, it stops inheriting all the themes from `options.theme`.
+
+For example, let's say you have this configuration structure.
+
+```javascript
+const processor = await unified()
+	.use(remarkParse)
+	.use(remarkRehype)
+	.use(rehypeHighlighter, {
+		theme: ["dracula", "github-light"],
+		inlineCode: {
+			theme: ["github-dark"]
+		}
+	})
+	.use(rehypeStringify)
+	.process("YOUR MARKDOWN CODE");
+```
+The highlighter will only use `github-dark` for your inline code blocks.
+
+**options.inlineCode.spaceSubstitution**  
 Type: `Boolean` (True or False)
 
 Becareful about the spelling of `spaceSubstitution`.
