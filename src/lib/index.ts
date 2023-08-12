@@ -22,17 +22,22 @@ const plugin: Plugin<[PluginOptions]> =
 				};
 				const options = Object.assign({}, defaultOpts, config);
 				visitParents(tree, { tagName: "code" }, (node: Element, ancestors: Array<Element>) => {
+					const parent = ancestors.at(-1);
 					if (
-						ancestors.at(-1)?.tagName === "pre" &&
+						parent?.tagName === "pre" &&
 						node.properties.className &&
-						ancestors.at(-1)?.children.length == 1 &&
+						parent?.children.length == 1 &&
 						node.properties.className.some((x) => x.startsWith("language-"))
 					) {
 						BLOCKS.push({ node, ancestors, type: "block" });
 						return SKIP;
 					} else if (
+						/** parseInlineCode function extracts the token(language) from the node.
+						 * It returns an object if it finds a token else it returns the original 
+						 * string
+						*/
 						typeof parseInlineCode(toText(node)) !== "string" &&
-						ancestors.at(-1)?.tagName !== "pre"
+						parent?.tagName !== "pre"
 					) {
 						BLOCKS.push({ node, ancestors, type: "inline" });
 						return SKIP;
