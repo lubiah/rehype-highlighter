@@ -39,4 +39,15 @@ describe("Testing remark plugin", () => {
 		const { value } = processed;
 		expect(value).toMatchFileSnapshot("__snapshots__/loadsCustomTheme.html");
 	});
+
+	test.concurrent("`options.inlineCode.theme` works as expected", async ( { expect })=> {
+		const content = readFileSync(resolvePath("./md/inlineCodeTheme.md"),"utf-8");
+		const processed = await processor({
+			inlineCode: {
+				theme: ["github-dark", "monokai"]
+			}
+		}).process(content);
+		const { value } = processed;
+		expect(value).toMatchFileSnapshot("__snapshots__/inlineCodeTheme.html");
+	})
 });
