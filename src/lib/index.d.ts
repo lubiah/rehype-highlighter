@@ -15,7 +15,8 @@ declare interface PluginOptions {
 		[key: string]: string;
 	};
 	inlineCode?: {
-		spaceSubstitution: boolean;
+		spaceSubstitution?: boolean;
+		theme?: PluginOptions['theme'];
 	};
 }
 

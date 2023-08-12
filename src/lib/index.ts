@@ -86,6 +86,8 @@ const plugin: Plugin<[PluginOptions]> =
 				}
 
 				for (const { node, ancestors } of BLOCKS.filter(({ type }) => type === "inline")) {
+					const theme = options.inlineCode?.theme || options.theme;
+					if (!theme) return;
 					const parent = ancestors.at(-1);
 					const childIndex = parent?.children.findIndex((x) => x === node);
 					if (!childIndex) return;
@@ -94,21 +96,20 @@ const plugin: Plugin<[PluginOptions]> =
 						content: string;
 					};
 
-					if (typeof options.theme === "string") {
+					if (typeof theme === "string") {
 						const highlighted = await highlighter(content, token, {
 							inlineCode: true,
-							theme: options.theme!,
+							theme: theme,
 							loadThemes: options.loadThemes,
 							spaceSubstitution: options.inlineCode?.spaceSubstitution
 						});
 						parent!.children[childIndex] = fromParse5(parseFragment(highlighted)) as Element;
 					} else {
 						const highlightedBlocks: Element[] = [];
-						if (!options.theme) return;
-						for (const theme of options.theme) {
+						for (const _theme of theme) {
 							const highlighted = await highlighter(content, token, {
 								inlineCode: true,
-								theme,
+								theme: _theme,
 								loadThemes: options.loadThemes,
 								spaceSubstitution: options.inlineCode?.spaceSubstitution
 							});
