@@ -50,7 +50,7 @@ const plugin: Plugin<[PluginOptions]> =
 					const parent = ancestors.at(-1);
 					const grandparent = ancestors.at(-2);
 					const parentIndex = ancestors.at(-2)?.children.findIndex((x) => x === parent);
-					if (!parentIndex) return;
+					if (parentIndex === undefined || parentIndex === null) return;
 					if (typeof options.theme === "string") {
 						const highlighted = await highlighter(
 							toText(node, { whitespace: "pre" }),
@@ -90,7 +90,7 @@ const plugin: Plugin<[PluginOptions]> =
 					if (!theme) return;
 					const parent = ancestors.at(-1);
 					const childIndex = parent?.children.findIndex((x) => x === node);
-					if (!childIndex) return;
+					if (childIndex === undefined) return;
 					const { token, content } = parseInlineCode(toText(node)) as {
 						token: string;
 						content: string;
