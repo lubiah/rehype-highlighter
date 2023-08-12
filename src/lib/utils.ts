@@ -2,7 +2,8 @@ import type { Element } from "hast";
 
 /**
  * Escapes certain characters in a string.
- *
+ * This prevent Svelte from screaming when you 
+ * use '{' and '}'
  * @param {string} str - The input string
  * @returns {string} The escaped string
  */
