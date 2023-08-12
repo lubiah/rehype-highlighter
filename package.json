@@ -1,0 +1,75 @@
+{
+	"name": "rehype-highlighter",
+	"description": "A rehype plugin that highlights code blocks in Markdown using Shiki. Supports highlighting for fenced code blocks and inline code snippets in multiple themes",
+	"keywords": [
+		"rehype",
+		"plugin",
+		"syntax",
+		"highlighting",
+		"code",
+		"theme",
+		"markdown",
+		"md",
+		"shiki"
+	],
+	"author": {
+		"name": "Lucretius Biah",
+		"url": "https://www.lubiah.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:lubiah/rehype-highlighter.git"
+	},
+	"homepage": "https://github.com/lubiah/rehype-highlighter#readme",
+	"bugs": {
+		"url": "https://github.com/lubiah/rehype-highlighter/issues"
+	},
+	"version": "0.0.1-beta",
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"main": "./dist/rehype-highlighter.js",
+	"module": "./dist/rehype-highlighter.js",
+	"exports": {
+		".": {
+			"import": "./dist/rehype-highlighter.js",
+			"require": "./dist/rehype-highlighter.cjs"
+		}
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write .",
+		"test": "vitest"
+	},
+	"devDependencies": {
+		"@types/express": "^4.17.17",
+		"@types/hast": "^3.0.0",
+		"@typescript-eslint/eslint-plugin": "^6.2.0",
+		"@typescript-eslint/parser": "^6.2.0",
+		"eslint": "^8.45.0",
+		"express": "^4.18.2",
+		"hast-util-to-text": "^4.0.0",
+		"prettier": "^3.0.0",
+		"rehype-stringify": "^9.0.3",
+		"remark-parse": "^10.0.2",
+		"remark-rehype": "^10.1.0",
+		"typescript": "^5.0.2",
+		"unified": "^10.1.2",
+		"vite": "^4.4.5",
+		"vite-plugin-node": "^3.0.2",
+		"vitest": "^0.33.0"
+	},
+	"dependencies": {
+		"hast-util-from-parse5": "^8.0.1",
+		"parse5": "^7.1.2",
+		"shiki": "^0.14.3",
+		"unist-util-visit-parents": "^6.0.1"
+	},
+	"lint-staged": {
+		"*.{js,css,md}": "prettier --write"
+	}
+}
