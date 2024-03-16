@@ -1,6 +1,7 @@
 # Inline Code theme works
 
 Main code block uses `dracula`
+
 ```python
 import random
 

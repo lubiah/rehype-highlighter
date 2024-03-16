@@ -21,4 +21,4 @@ else:
 <p>Hello {name}</p>
 ```
 
-Some inline code `:python:print("The random number is odd")` 
+Some inline code `:python:print("The random number is odd")`

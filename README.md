@@ -7,11 +7,11 @@ It uses [Shiki](https://shiki-play.matsu.io/) under the hood to highlight both f
 
 Get ready to add some flair to your docs by installing rehype-highlighter!
 
-* pnpm  
+- pnpm  
   `pnpm add -D rehype-highlighter`
-* npm  
+- npm  
   `npm install -D rehype-highlighter`
-* yarn  
+- yarn  
   `yarn add -D rehype-highlighter`
 
 ## How it works
@@ -30,7 +30,9 @@ For fenced code blocks, it will wrap the highlighted code like this:
 For inline code, it will wrap it like this:
 
 ```html
-<code class="rehype-highlighter" data-rh-highlighter-inline data-rh-highlighter-theme="theme"><!--SHIKI-HIGHLIGHTED CODE--></code>
+<code class="rehype-highlighter" data-rh-highlighter-inline data-rh-highlighter-theme="theme"
+	><!--SHIKI-HIGHLIGHTED CODE--></code
+>
 ```
 
 This way, you can target the classes or attributes with your CSS and provide additional styling, or to toggle code blocks.
@@ -183,6 +185,7 @@ const processor = await unified()
 	.use(rehypeStringify)
 	.process("YOUR MARKDOWN CODE");
 ```
+
 The highlighter will only use `github-dark` for your inline code blocks.
 
 **options.inlineCode.spaceSubstitution**  
