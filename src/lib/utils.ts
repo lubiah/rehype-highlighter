@@ -10,8 +10,8 @@ import type { Element } from "hast";
 export const escapeCode = (str: string): string => {
 	/** Mapping of characters to escape */
 	const escapes: { [key: string]: string } = {
-		"{": "&#123;",
-		"}": "&#125;"
+		"{": "&lbrace;",
+		"}": "&rbrace;"
 	};
 
 	return str

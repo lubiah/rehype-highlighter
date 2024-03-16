@@ -1,4 +1,4 @@
-import type { Theme } from "shiki";
+import type { BundledTheme, ThemeRegistration } from "shiki";
 
 type LiteralUnion<T extends U, U = string> = T | (U & { zz_IGNORE_ME?: never });
 
@@ -10,7 +10,7 @@ declare module "hast" {
 }
 
 declare interface PluginOptions {
-	theme?: LiteralUnion<Theme> | LiteralUnion<Theme>[];
+	theme?: LiteralUnion<BundledTheme> | Record<string,LiteralUnion<BundledTheme>>;
 	loadThemes?: {
 		[key: string]: string;
 	};
@@ -25,7 +25,7 @@ declare type Highlight = (
 	lang: string,
 	opts: {
 		inlineCode: boolean;
-		theme: Theme | string;
+		theme: LiteralUnion<BundledTheme> |Record<string,LiteralUnion<BundledTheme>>;
 		loadThemes?: PluginOptions["loadThemes"];
 		spaceSubstitution?: boolean;
 	} = {}

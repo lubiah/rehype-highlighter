@@ -13,4 +13,12 @@ else:
     print("The random number is odd")
 ```
 
+```svelte
+<script>
+    export let name = "Lucretius";
+</script>
+
+<p>Hello {name}</p>
+```
+
 Some inline code `:python:print("The random number is odd")` 

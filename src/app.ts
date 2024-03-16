@@ -17,9 +17,15 @@ const processor = unified()
 			moonlight: fileURLToPath(new URL("./themes/moonlight.json", import.meta.url)),
 			"ayu-dark": fileURLToPath(new URL("./themes/ayu-dark.json", import.meta.url))
 		},
-		theme: "moonlight",
+		theme: {
+			light: "andromeeda",
+			dark: "catppuccin-frappe"
+		},
 		inlineCode: {
-			theme: ["github-dark","material-theme-darker"]
+			theme: {
+				light: "min-light",
+				dark: "min-dark"
+			}
 		}
 	})
 	.use(rehypeStringify);
