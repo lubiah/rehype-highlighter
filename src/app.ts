@@ -11,24 +11,18 @@ const app = express();
 
 const processor = unified()
 	.use(remarkParse)
-	.use(remarkRehype)
+	.use(remarkRehype, { allowDangerousHtml: true })
 	.use(plugin, {
+		theme: "moonlight",
 		loadThemes: {
-			moonlight: fileURLToPath(new URL("./themes/moonlight.json", import.meta.url)),
-			"ayu-dark": fileURLToPath(new URL("./themes/ayu-dark.json", import.meta.url))
-		},
-		theme: {
-			light: "andromeeda",
-			dark: "catppuccin-frappe"
-		},
-		inlineCode: {
-			theme: {
-				light: "min-light",
-				dark: "min-dark"
-			}
+			moonlight: JSON.parse(readFileSync(fileURLToPath(new URL("./themes/moonlight.json", import.meta.url)), { encoding: "utf-8" }))
 		}
+		// theme: {
+		// 	light: readFileSync(fileURLToPath(new URL("./themes/moonlight.json", import.meta.url)), { encoding: "utf-8" }),
+		// 	dark: readFileSync(fileURLToPath(new URL("./themes/ayu-dark.json", import.meta.url)), { encoding: "utf-8"})
+		// }
 	})
-	.use(rehypeStringify);
+	.use(rehypeStringify, { allowDangerousHtml: true, allowDangerousCharacters: true });
 
 app.engine("md", async (path, _options, func) => {
 	const template = readFileSync(fileURLToPath(new URL("../index.html", import.meta.url)), "utf-8");

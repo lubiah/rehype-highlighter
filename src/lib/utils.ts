@@ -1,28 +1,6 @@
 import type { Element } from "hast";
 
 /**
- * Escapes certain characters in a string.
- * This prevent Svelte from screaming when you
- * use '{' and '}'
- * @param {string} str - The input string
- * @returns {string} The escaped string
- */
-export const escapeCode = (str: string): string => {
-	/** Mapping of characters to escape */
-	const escapes: { [key: string]: string } = {
-		"{": "&lbrace;",
-		"}": "&rbrace;"
-	};
-
-	return str
-		.split("")
-		.map((char) => {
-			return escapes[char] || char;
-		})
-		.join("");
-};
-
-/**
  * This function is responsible for identifying the language and contents to be highlighted
  * inside inlineCode blocks. This is how it works, it looks for any `:keyword:` at the start
  * of a code block. If the regex matches it, it then selects the rest of the characters as the

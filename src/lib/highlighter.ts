@@ -1,14 +1,13 @@
 import {
 	BundledTheme,
-	bundledThemes,
 	getHighlighter,
-	ThemeInput,
 	type ThemeRegistration,
-	type CodeToHastOptions
+	type CodeToHastOptions,
+	type SpecialTheme,
+	bundledThemes
 } from "shiki";
 import { Highlight } from "./index.d";
-import fs from "node:fs/promises";
-import { escapeCode } from "./utils";
+import { visitParents } from "unist-util-visit-parents";
 
 const highlight: Highlight = async (
 	code,
@@ -18,41 +17,41 @@ const highlight: Highlight = async (
 		inlineCode: false
 	}
 ) => {
-	const { loadThemes, inlineCode, theme } = opts;
-	const loadedThemes: { [key: string]: ThemeRegistration } = {}; // This object stores the loaded themes
+
 	const highlighter = await getHighlighter({ langs: [lang], themes: [] });
 
-	if (loadThemes) {
-		for (const theme in loadThemes) {
-			const themeContents = JSON.parse(
-				await fs.readFile(loadThemes[theme], "utf-8")
-			) as ThemeRegistration;
-			await highlighter.loadTheme(themeContents);
-			loadedThemes[theme] = themeContents;
+	if (opts.theme && Object.keys(bundledThemes).includes(opts.theme)) await highlighter.loadTheme(opts.theme as BundledTheme);
+	else {
+		if (opts.loadThemes && opts.theme && Object.keys(opts.loadThemes).includes(opts.theme)){
+			const themeReg = opts.loadThemes[opts.theme];
+			themeReg.name = opts.theme;
+			await highlighter.loadTheme(themeReg);
 		}
 	}
-	if (typeof theme === "string") {
-		if (Object.keys(bundledThemes).includes(theme))
-			await highlighter.loadTheme(theme as ThemeInput);
-	} else {
-		const themes = Object.values(theme);
-		for (const _theme of themes) {
-			await highlighter.loadTheme(_theme as BundledTheme);
+	if (opts.themes && typeof opts.themes === 'object'){
+		for (const theme in opts.themes){
+			if (Object.keys(bundledThemes).includes(opts.themes[theme])) await highlighter.loadTheme(opts.themes[theme] as BundledTheme);
+			else {
+				console.log(theme)
+			}
 		}
 	}
 
-	//@ts-expect-error themes is required
-	const highlighterOptions: CodeToHastOptions = {
+	//@ts-expect-error theme is required
+	const highlighterOptions: CodeToHastOptions & {
+		theme?: BundledTheme | ThemeRegistration | SpecialTheme;
+		themes?: Partial<Record<string, BundledTheme | ThemeRegistration>>;
+	} = {
 		lang,
 		transformers: []
 	};
-	typeof theme === "string"
-		? //@ts-expect-error theme is not defined on object
-			(highlighterOptions.theme = theme)
-		: //@ts-expect-error themes is not defined on object
-			(highlighterOptions.themes = theme);
+	(typeof opts.theme === "string")
+		?
+		(highlighterOptions.theme = opts.theme) :
+		(highlighterOptions.themes = opts.theme);
 
-	if (inlineCode) {
+
+	if (opts.inlineCode) {
 		highlighterOptions.transformers?.push({
 			name: "rehype-highlighter-inline-code",
 			code: function (this, element) {
@@ -63,20 +62,22 @@ const highlight: Highlight = async (
 				element.properties["data-rh-highlighter-inline"] = true;
 			}
 		});
-		return escapeCode(highlighter.codeToHtml(code, highlighterOptions));
+
+		if (opts.spaceSubstitution) {
+			highlighterOptions.transformers?.push({
+				name: "rehype-highlighter-space-substitution",
+				code: function (this, element) {
+					visitParents(element, "text", function (node) {
+						node.value = node.value.replace(/\s/g, "&nbsp;");
+					})
+				}
+			})
+		}
+		return highlighter.codeToHtml(code, highlighterOptions);
 	}
 
-	// if (inlineCode)
-	// 	return renderToHtml(tokens, {
-	// 		bg: "#FFFFFF00",
-	// 		elements: {
-	// 			token: ({ style, children }) => {
-	// 				children = escapeCode(children);
-	// 				if (opts.spaceSubstitution) children = children.replace(/\s/g, "&nbsp;");
-	// 				return `<span style='${;style}'>${children}</span>`;
-	// 	});
+	return highlighter.codeToHtml(code, highlighterOptions);
 
-	return escapeCode(highlighter.codeToHtml(code, highlighterOptions));
 };
 
 export default highlight;

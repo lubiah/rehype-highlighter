@@ -81,10 +81,10 @@ const plugin: Plugin<[PluginOptions]> =
 						loadThemes: options.loadThemes,
 						spaceSubstitution: options.inlineCode?.spaceSubstitution
 					});
+					
+					const parsed = (parseFragment(highlighted).childNodes[0] as any).childNodes[0];
 					//@ts-expect-error childnodes not available
-					parent!.children[childIndex] = fromParse5(
-						parseFragment(highlighted).childNodes[0].childNodes[0]
-					) as Element;
+					parent!.children[childIndex] = fromParse5(parsed);
 				}
 			})().then(() => resolve());
 		});
