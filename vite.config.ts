@@ -2,7 +2,7 @@
 
 import { defineConfig } from "vite";
 import { VitePluginNode } from "vite-plugin-node";
-
+import dts from 'vite-plugin-dts';
 export default defineConfig({
 	build: {
 		lib: {
@@ -21,6 +21,8 @@ export default defineConfig({
 				appPath: "src/app.ts"
 			})[0],
 			apply: "serve"
-		}
+		},
+		dts({ rollupTypes: true})
+		
 	]
 });
