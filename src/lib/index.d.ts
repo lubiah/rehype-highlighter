@@ -12,7 +12,7 @@ declare module "hast" {
 declare interface PluginOptions {
 	theme?: LiteralUnion<BundledTheme>;
 	themes?: Record<string, string>;
-	loadThemes?: Record<string, ThemeRegistration>
+	loadThemes?: string[] | ThemeRegistration[]
 	inlineCode?: {
 		spaceSubstitution?: boolean;
 		theme?: PluginOptions["theme"];
