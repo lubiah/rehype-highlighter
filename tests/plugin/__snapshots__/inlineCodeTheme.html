@@ -1,19 +1,18 @@
 <h1>Inline Code theme works</h1>
 <p>Main code block uses <code>dracula</code></p>
-<pre data-rh-highlighter-theme="github-dark" class="rehype-highlighter" style="background-color: #24292e"><code><span class="line"><span style="color: #F97583">import</span><span style="color: #E1E4E8"> random</span></span>
+<pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> random</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #F97583">def</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">generate_random_number</span><span style="color: #E1E4E8">():</span></span>
-<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">"""Generate a random number between 1 and 100"""</span></span>
-<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">return</span><span style="color: #E1E4E8"> random.randint(</span><span style="color: #79B8FF">1</span><span style="color: #E1E4E8">, </span><span style="color: #79B8FF">100</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> generate_random_number</span><span style="color:#24292E">():</span></span>
+<span class="line"><span style="color:#032F62">    """Generate a random number between 1 and 100"""</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#24292E"> random.randint(</span><span style="color:#005CC5">1</span><span style="color:#24292E">, </span><span style="color:#005CC5">100</span><span style="color:#24292E">)</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #E1E4E8">random_num </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> generate_random_number()</span></span>
-<span class="line"><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(random_num)</span></span>
+<span class="line"><span style="color:#24292E">random_num </span><span style="color:#D73A49">=</span><span style="color:#24292E"> generate_random_number()</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(random_num)</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #F97583">if</span><span style="color: #E1E4E8"> random_num </span><span style="color: #F97583">%</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">2</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">==</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">:</span></span>
-<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(</span><span style="color: #9ECBFF">"The random number is even"</span><span style="color: #E1E4E8">)</span></span>
-<span class="line"><span style="color: #F97583">else</span><span style="color: #E1E4E8">:</span></span>
-<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(</span><span style="color: #9ECBFF">"The random number is odd"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color:#D73A49">if</span><span style="color:#24292E"> random_num </span><span style="color:#D73A49">%</span><span style="color:#005CC5"> 2</span><span style="color:#D73A49"> ==</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#005CC5">    print</span><span style="color:#24292E">(</span><span style="color:#032F62">"The random number is even"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">else</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#005CC5">    print</span><span style="color:#24292E">(</span><span style="color:#032F62">"The random number is odd"</span><span style="color:#24292E">)</span></span>
 <span class="line"></span></code></pre>
-<p>inline code blocks below won't use the theme above but will use <code>github-dark</code> &#x26; <code>monokai</code>
-hello</p>
-<p><code class="rehype-highlighter" data-rh-highlighter-inline="" data-rh-highlighter-theme="github-dark"><span class="line"><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(</span><span style="color: #9ECBFF">"The random number is odd"</span><span style="color: #E1E4E8">)</span></span></code><code class="rehype-highlighter" data-rh-highlighter-inline="" data-rh-highlighter-theme="monokai"><span class="line"><span style="color: #66D9EF">print</span><span style="color: #F8F8F2">(</span><span style="color: #E6DB74">"The random number is odd"</span><span style="color: #F8F8F2">)</span></span></code></p>
+<p>inline code blocks below won't use the theme above but will use <code>github-dark</code> &#x26; <code>monokai</code></p>
+<p><code class="shiki monokai" data-rh-highlighter-inline=""><span class="line"><span style="color:#66D9EF">print</span><span style="color:#F8F8F2">(</span><span style="color:#E6DB74">"The random number is odd"</span><span style="color:#F8F8F2">)</span></span></code></p>

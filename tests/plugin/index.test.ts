@@ -21,10 +21,10 @@ const resolvePath = (path: string) => {
 	return fileURLToPath(new URL(path, import.meta.url));
 };
 
-describe("Testing remark plugin", () => {
+describe("Testing rehype plugin", () => {
 	test.concurrent("Able to highlight inline code", async ({ expect }) => {
 		const content = readFileSync(resolvePath("./md/inlineCode.md"), "utf-8");
-		const processed = await processor().process(content);
+		const processed = await processor({ theme: "github-light" }).process(content);
 		const { value } = processed;
 		expect(value).toMatchFileSnapshot("__snapshots__/inlineCode.html");
 	});
@@ -32,9 +32,10 @@ describe("Testing remark plugin", () => {
 	test.concurrent("Able to load custom themes", async ({ expect }) => {
 		const content = readFileSync(resolvePath("./md/loadCustomTheme.md"), "utf-8");
 		const processed = await processor({
-			loadThemes: {
-				"ayu-dark": fileURLToPath(new URL("../../src/themes/ayu-dark.json", import.meta.url))
-			}
+			theme: "Moonlight",
+			loadThemes: [
+				JSON.parse(readFileSync(fileURLToPath(new URL("../../src/themes/moonlight.json", import.meta.url)),{ encoding: "utf-8"}))
+			]
 		}).process(content);
 		const { value } = processed;
 		expect(value).toMatchFileSnapshot("__snapshots__/loadsCustomTheme.html");
@@ -43,8 +44,9 @@ describe("Testing remark plugin", () => {
 	test.concurrent("`options.inlineCode.theme` works as expected", async ({ expect }) => {
 		const content = readFileSync(resolvePath("./md/inlineCodeTheme.md"), "utf-8");
 		const processed = await processor({
+			theme: "github-light",
 			inlineCode: {
-				theme: ["github-dark", "monokai"]
+				theme: "monokai"
 			}
 		}).process(content);
 		const { value } = processed;

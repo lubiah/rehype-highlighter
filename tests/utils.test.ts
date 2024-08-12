@@ -43,4 +43,10 @@ describe("Testing parseInlindeCode utility", () => {
 		const result = parseInlineCode(str);
 		expect(result).toEqual(str);
 	});
+
+	it("prevents extraction if space precedes content", ()=>{
+		const str = " :python: import time from 'time'";
+		const result = parseInlineCode(str);
+		expect(result).toBe(str.trim())
+	})
 });

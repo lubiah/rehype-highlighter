@@ -19,6 +19,5 @@ else:
 ```
 
 inline code blocks below won't use the theme above but will use `github-dark` & `monokai`
-hello
 
 `:python:print("The random number is odd")`

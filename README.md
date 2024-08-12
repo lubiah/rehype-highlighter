@@ -45,8 +45,6 @@ For example, to highlight `import time from time` in Python:
 
 `:python:import time from time`
 
-No need to stress about spacing - **the highlight will work with or without a space after the last colon**.
-
 #### Escape Highlighting
 
 If you actually want to show an inline code snippet without highlighting, just add a space before the first colon:
@@ -98,12 +96,9 @@ There are a bunch of options which you can use with this plugin.
 You just need to pass in an object with the plugin.
 
 **options.theme**  
-Type: `string | string[]` (A string or array of strings).
+Type: `string`.
 
 This option is used to set the theme which should be used to highlight your code. It can be any of the [built in themes](https://github.com/shikijs/shiki/blob/main/docs/themes.md) or you can also load your custom themes and specify the name here.
-
-If you specify an array, for each code block it finds, it will generate each theme with the code block.
-This is useful if you have multiple themes on your website. You can easily hide them with the `data-rh-highlighter-theme` attribute which the plugin sets on the code block.
 
 Example,
 
@@ -112,37 +107,19 @@ const processor = await unified()
 	.use(remarkParse)
 	.use(remarkRehype)
 	.use(rehypeHighlighter, {
-		theme: ["dracula", "github-light"]
+		theme: "dracula"
 	})
 	.use(rehypeStringify)
 	.process("YOUR MARKDOWN CODE");
 ```
 
-The option above set will generate two code blocks for each code block it finds, this also applies to inline code. Each code block will have an attribute of `data-rm-highlighter-theme`.
-So in order to show `dracula` in night mode and show `github-light` in light mode or the default mode, you will use the following CSS.
-
-```css
-@media (prefers-color-scheme: dark) {
-	pre[data-rm-highlighter-theme="github-light"],
-  code[data-rm-highlighter-theme='github-light'] /**For inline code blocks*/ {
-		display: none;
-	}
-}
-
-@media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
-	pre[data-rm-highlighter-theme="dracula"],
-	code[data-rm-highlighter-theme="dracula"] {
-		display: none;
-	}
-}
-```
 
 **options.loadThemes**  
-Type: `object`
+Type: `object[]`
 
 This is the way to load themes which are not included in the Shiki package. Also, you can load as many themes as you want.
-Just pass in the name of the theme and it's path and it will be registered.
-After adding a theme here, you can then use `options.theme` to select the theme which you added by using the name you specified here.
+Just pass in the object for the theme and it will be loaded.
+After adding a theme here, you can then use `options.theme` to select the theme which you added by using the name.
 
 Example,
 
@@ -153,10 +130,10 @@ const processor = await unified()
 	.use(remarkParse)
 	.use(remarkRehype)
 	.use(rehypeHighlighter, {
-		loadThemes: {
-			moonlight: fileURLToPath(new URL("./themes/moonlight.json", import.meta.url)),
-			"ayu-dark": fileURLToPath(new URL("./themes/ayu-dark.json", import.meta.url))
-		}
+		loadThemes: [
+			JSON.parse(fileURLToPath(new URL("./themes/moonlight.json", import.meta.url))),
+			JSON.parse(fileURLToPath(new URL("./themes/ayu-dark.json", import.meta.url)))
+		]
 	})
 	.use(rehypeStringify)
 	.process("YOUR MARKDOWN CODE");
@@ -165,7 +142,7 @@ const processor = await unified()
 Now, you can set the highlighter to use those themes by passing the name to `options.theme`.
 
 **options.inlineCode.theme**  
-Type: `string | string[]` (A string or array of strings).
+Type: `string`
 
 This option allows you to set the theme for only inline code snippets. By default it inherits the theme from `options.theme`.
 Do note that if a value is set for this, it stops inheriting all the themes from `options.theme`.
@@ -179,7 +156,7 @@ const processor = await unified()
 	.use(rehypeHighlighter, {
 		theme: ["dracula", "github-light"],
 		inlineCode: {
-			theme: ["github-dark"]
+			theme: "github-dark"
 		}
 	})
 	.use(rehypeStringify)
@@ -191,7 +168,6 @@ The highlighter will only use `github-dark` for your inline code blocks.
 **options.inlineCode.spaceSubstitution**  
 Type: `Boolean` (True or False)
 
-Becareful about the spelling of `spaceSubstitution`.
 This option only applies to inline code. Svelte strips multiple whitespaces from elements and this can affect how your code is rendered when you choose to highlight inline code. What this option does is that,
 when you set it to true, it replaces every whitespace with it's html entity `&nbps;`, this way, your whitespace is not stripped
 and it's rendered.

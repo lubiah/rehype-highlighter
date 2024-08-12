@@ -1,6 +1,6 @@
 import type { Plugin } from "unified";
 import { visitParents, CONTINUE, SKIP } from "unist-util-visit-parents";
-import { makeSingletonHighlighter, createHighlighter, CodeToHastOptions, BundledTheme, ThemeRegistration } from "shiki";
+import { makeSingletonHighlighter, createHighlighter, CodeToHastOptions, BundledTheme, ThemeRegistration, bundledThemes } from "shiki";
 import { getLanguageFromNode, parseInlineCode } from "./utils";
 import type { PluginOptions } from "./index.d";
 import { toText } from "hast-util-to-text";
@@ -29,8 +29,13 @@ const plugin: Plugin<[PluginOptions]> =
 						transformers: []
 					};
 					const options = Object.assign({}, defaultOpts, config);
-					const themes = [...Object.values(options.themes ?? {}), ...options.loadThemes ?? "github-dark"]
-					await highlighter({ themes: themes });
+					let themes = [];
+					if (options && options.themes) themes.push(...Object.values(options.themes));
+					if (options && options.inlineCode && options.inlineCode.theme) themes.push(options.inlineCode.theme);
+					if (options.loadThemes) themes.push(...options.loadThemes);
+					if (options && options.theme) themes.push(options.theme);
+					themes = themes.filter(x => !(typeof (x) === "string" && !Object.keys(bundledThemes).includes(x))) // Filter out themes which are not part of bundled themes
+					await highlighter({ themes });
 					visitParents(tree, { tagName: "code" }, (node: Element, ancestors: Array<Element>) => {
 						const parent = ancestors.at(-1);
 						if (
@@ -62,8 +67,8 @@ const plugin: Plugin<[PluginOptions]> =
 						if (parentIndex === undefined || parentIndex === null) return;
 						(options.theme == undefined) ? highlighterOptions.themes = options.themes : highlighterOptions.theme = options.theme;
 						highlighterOptions.lang = getLanguageFromNode(node);
-						await highlighter({ langs: [highlighterOptions.lang] })
-						const highlighted = (await highlighter({})).codeToHtml(
+						await highlighter({ langs: [highlighterOptions.lang] });
+						const highlighted = (await highlighter()).codeToHtml(
 							toText(node, { whitespace: "pre" }),
 							highlighterOptions
 
@@ -82,10 +87,10 @@ const plugin: Plugin<[PluginOptions]> =
 							content: string;
 						};
 						highlighterOptions.transformers?.push(transforms["rehype-highlighter-inline-code"]);
-						(theme == undefined) ? highlighterOptions.themes = options.themes : highlighterOptions.theme = options.theme;
+						(theme == undefined) ? highlighterOptions.themes = options.themes : highlighterOptions.theme = theme;
 						highlighterOptions.lang = token;
 						if (options.inlineCode?.spaceSubstitution && highlighterOptions.transformers) highlighterOptions.transformers.push(transforms["rehype-highlighter-space-substitution"]);
-						const highlighted = (await highlighter({})).codeToHtml(content, highlighterOptions);
+						const highlighted = (await highlighter({ langs: [highlighterOptions.lang] })).codeToHtml(content, highlighterOptions);
 						const parsed = (parseFragment(highlighted).childNodes[0] as any).childNodes[0];
 						//@ts-expect-error childnodes not available
 						parent!.children[childIndex] = fromParse5(parsed);

@@ -13,15 +13,11 @@ const processor = unified()
 	.use(remarkParse)
 	.use(remarkRehype, { allowDangerousHtml: true })
 	.use(plugin, {
-
+		theme: "Moonlight",
 		loadThemes: [
 			JSON.parse(readFileSync(fileURLToPath(new URL("./themes/moonlight.json", import.meta.url)), { encoding: "utf-8" })),
 			import('shiki/themes/material-theme-ocean.mjs')
 		],
-		themes: {
-			light: JSON.parse(readFileSync(fileURLToPath(new URL("./themes/moonlight.json", import.meta.url)), { encoding: "utf-8" })),
-			dark: JSON.parse(readFileSync(fileURLToPath(new URL("./themes/ayu-dark.json", import.meta.url)), { encoding: "utf-8" }))
-		}
 	})
 	.use(rehypeStringify, { allowDangerousHtml: true, allowDangerousCharacters: true });
 
