@@ -24,7 +24,7 @@
 	"bugs": {
 		"url": "https://github.com/lubiah/rehype-highlighter/issues"
 	},
-	"version": "0.0.3-beta",
+	"version": "0.0.4-beta",
 	"type": "module",
 	"files": [
 		"dist"
